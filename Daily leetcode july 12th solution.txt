@@ -1,0 +1,27 @@
+class Solution:
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        def process(s, pat, val):
+            stack = []
+            gain = 0
+
+            for char in s:
+                stack.append(char)
+                if stack and ''.join(stack[-2:]) == pat:
+                    stack.pop()
+                    stack.pop()
+                    gain += val
+                    
+
+            return gain, ''.join(stack)
+
+        if x > y:
+            pat1, val1 = "ab", x
+            pat2, val2 = "ba", y
+        else:
+            pat1, val1 = "ba", y
+            pat2, val2 = "ab", x
+
+        gain1, rem_str = process(s, pat1, val1)
+        gain2, _ = process(rem_str, pat2, val2)
+
+        return gain1 + gain2
